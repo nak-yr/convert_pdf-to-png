@@ -2,9 +2,13 @@
 
 ## Description
 
-カレントディレクトリ内の単一ページpdfをpngに一括変換するpythonスクリプトです．
+2通りの状況下で、pdfファイルをpng画像に変換するツールです。
+1. 単一ページpdfファイル一つをpng画像に変換する
+2. ディレクトリ内の単一ページpdfファイル(複数可)をpng画像に変換する
 
-`.pdf`部分が`.png`になったものがカレントディレクトリに出力されます．
+`.pdf`部分が`.png`になったものがpdfファイルと同じディレクトリに出力されます．
+
+複数ページpdfファイルを指定した場合、1ページ目のみがpng画像として出力されます。
 
 ## Requirements
 
@@ -20,29 +24,51 @@
     ```
 1. `convert_pdf-to-png.py`を好きな場所に保存
 
-2. 変換したいpdfファイルのあるディレクトリに移動
+2. 変換したいpdfファイルまたはフォルダを指定して`convert_pdf-to-png.py`を実行
+   - pdfファイル(単一ページ、単一ファイル)のパスを指定する場合
+     - `python3 convert_pdf-to-png.py <FULL filepath>`
+     - **フルパス** で指定しないと動作しないため注意 
+   - pdfファイル(単一ページ)のあるフォルダを指定する場合(フォルダ内に複数の単一ページpdfファイルがある場合も可)
+     - `python3 convert_pdf-to-png.py <FULL directorypath>`
+     - **フルパス** で指定しないと動作しないため注意 
+    
+例：以下のような構成の場合(カレントディレクトリは`/home/user/`を仮定)
 
-3. 移動したディレクトリ内で以下を実行
-    ```
-    $ python3 path/to/convert_pdf-to-png.py
-    ```
-    
-    例：以下のような構成の場合
-    
-    ```
-    ./
+```
+/home/user/
     ├── convert_pdf-to-png.py
     └── target_dir
         ├── a.pdf
         ├── b.pdf
         └── c.pdf
-    ```
+```
     
-    この場合，`target_dir`に移動して，その中からconvert_pdf-to-png.pyを実行する．
+### Example1
+
+    pdfファイル(a.pdfのみ)を指定してconvert_pdf-to-png.pyを実行する
     
     ```
-    $ cd target_dir
-    $ python3 ../convert_pdf-to-png.py
+    $ python3 ./convert_pdf-to-png.py /home/user/target_dir/a.pdf
+    ```
+
+    実行後は以下のようになる．
+
+    ```
+    ./
+    ├── convert_pdf-to-png.py
+    └── target_dir
+        ├── a.pdf
+        ├── a.png  <- a.pngが生成された
+        ├── b.pdf
+        └── c.pdf
+    ```
+
+### Example2
+
+    ディレクトリ(target_dir)を指定してconvert_pdf-to-png.pyを実行する
+    
+    ```
+    $ python3 ./convert_pdf-to-png.py /home/user/target_dir
     ```
 
     実行後は以下のようになる．
